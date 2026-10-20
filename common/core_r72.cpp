@@ -35,6 +35,10 @@ extern "C" s32 CDECL rc5_72_unit_func_ansi_4( RC5_72UnitWork *, u32 *, void * );
 extern "C" s32 CDECL rc5_72_unit_func_ansi_2( RC5_72UnitWork *, u32 *, void * );
 extern "C" s32 CDECL rc5_72_unit_func_ansi_1( RC5_72UnitWork *, u32 *, void * );
 
+#if defined(__riscv_xtheadvector)
+extern "C" s32 CDECL rc5_72_unit_func_rvv_4( RC5_72UnitWork *, u32 *, void * );
+#endif
+
 // These are (assembly-)optimized versions for each platform.
 #if (CLIENT_CPU == CPU_X86) && !defined(HAVE_NO_NASM)
 extern "C" s32 CDECL rc5_72_unit_func_ses( RC5_72UnitWork *, u32 *, void *);
@@ -254,6 +258,9 @@ const char **corenames_for_contest_rc572()
       "ANSI 4-pipe",
       "ANSI 2-pipe",
       "ANSI 1-pipe",
+    #if defined(__riscv_xtheadvector)
+      "RVV 0.7 4-lane",
+    #endif
   #endif
       NULL
   };
@@ -1107,6 +1114,13 @@ int selcoreSelectCore_rc572(Client *client, unsigned int threadindex,
        case 3:
          unit_func.gen_72 = rc5_72_unit_func_MIPS_2;
          pipeline_count = 2;
+         break;
+     #endif
+
+     #if defined(__riscv_xtheadvector) && (CLIENT_CPU == CPU_UNKNOWN)
+       case 3:
+         unit_func.gen_72 = rc5_72_unit_func_rvv_4;
+         pipeline_count = 4;
          break;
      #endif
 

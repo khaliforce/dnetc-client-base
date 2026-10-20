@@ -659,9 +659,15 @@ add_sources() # $1=os, $2=arch, $3=custom
     fi # HAVE_OGR_P2
   #-----------------------------------------------------------------
   elif [ "$2" = "88k" -o "$2" = "sh4" -o "$2" = "vax" \
-      -o "$2" = "generic" -o "$2" = "riscv64" \
+      -o "$2" = "generic" \
       -o "$2" = "power" ]; then
     : # pure ansi targets. (2 pipeline RC5 core) ==> DEFAULT
+  #-----------------------------------------------------------------
+  elif [ "$2" = "riscv64" ]; then
+    # ANSI cores plus the T-Head vector core (compiled only with -march=..._xtheadvector)
+    if [ "$HAVE_RC5_72" = "1" ]; then
+      TARGET_ADDSRCS="$TARGET_ADDSRCS rc5-72/riscv64/r72-rvv-4.cpp"
+    fi # HAVE_RC5_72
   #-----------------------------------------------------------------
   elif [ "$2" = "amd64" ]; then
     TARGET_ADDSRCS="$TARGET_ADDSRCS plat/x86/x86id.cpp"
