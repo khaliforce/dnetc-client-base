@@ -666,7 +666,10 @@ add_sources() # $1=os, $2=arch, $3=custom
   elif [ "$2" = "riscv64" ]; then
     # ANSI cores plus the T-Head vector core (compiled only with -march=..._xtheadvector)
     if [ "$HAVE_RC5_72" = "1" ]; then
-      TARGET_ADDSRCS="$TARGET_ADDSRCS rc5-72/riscv64/r72-rvv-4.cpp rc5-72/riscv64/r72-rvv-8.cpp"
+      TARGET_ADDSRCS="$TARGET_ADDSRCS rc5-72/riscv64/r72-rvv-4.cpp rc5-72/riscv64/r72-rvv-8.cpp rc5-72/riscv64/r72-rvv-8a.cpp rc5-72/riscv64/r72-rvv-12.cpp"
+      case "$RISCV_FLAGS" in
+        *xtheadvector*) TARGET_ADDASMS="$TARGET_ADDASMS rc5-72/riscv64/r72-rvv-8a.S rc5-72/riscv64/r72-rvv-12.S" ;;
+      esac
     fi # HAVE_RC5_72
   #-----------------------------------------------------------------
   elif [ "$2" = "amd64" ]; then

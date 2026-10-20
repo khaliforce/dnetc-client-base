@@ -38,6 +38,8 @@ extern "C" s32 CDECL rc5_72_unit_func_ansi_1( RC5_72UnitWork *, u32 *, void * );
 #if defined(__riscv_xtheadvector)
 extern "C" s32 CDECL rc5_72_unit_func_rvv_4( RC5_72UnitWork *, u32 *, void * );
 extern "C" s32 CDECL rc5_72_unit_func_rvv_8( RC5_72UnitWork *, u32 *, void * );
+extern "C" s32 CDECL rc5_72_unit_func_rvv_8a( RC5_72UnitWork *, u32 *, void * );
+extern "C" s32 CDECL rc5_72_unit_func_rvv_12( RC5_72UnitWork *, u32 *, void * );
 #endif
 
 // These are (assembly-)optimized versions for each platform.
@@ -262,6 +264,8 @@ const char **corenames_for_contest_rc572()
     #if defined(__riscv_xtheadvector)
       "RVV 0.7 4-lane",
       "RVV 0.7 8-lane",
+      "RVV 0.7 8-key asm",
+      "RVV 0.7 12-key asm",
     #endif
   #endif
       NULL
@@ -1127,6 +1131,14 @@ int selcoreSelectCore_rc572(Client *client, unsigned int threadindex,
        case 4:
          unit_func.gen_72 = rc5_72_unit_func_rvv_8;
          pipeline_count = 8;
+         break;
+       case 5:
+         unit_func.gen_72 = rc5_72_unit_func_rvv_8a;
+         pipeline_count = 8;
+         break;
+       case 6:
+         unit_func.gen_72 = rc5_72_unit_func_rvv_12;
+         pipeline_count = 12;
          break;
      #endif
 
