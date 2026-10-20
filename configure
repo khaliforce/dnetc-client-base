@@ -659,7 +659,7 @@ add_sources() # $1=os, $2=arch, $3=custom
     fi # HAVE_OGR_P2
   #-----------------------------------------------------------------
   elif [ "$2" = "88k" -o "$2" = "sh4" -o "$2" = "vax" \
-      -o "$2" = "generic" \
+      -o "$2" = "generic" -o "$2" = "riscv64" \
       -o "$2" = "power" ]; then
     : # pure ansi targets. (2 pipeline RC5 core) ==> DEFAULT
   #-----------------------------------------------------------------
@@ -1708,6 +1708,17 @@ case "$1" in
         TARGET_TARBALL="linux-arm64"
         TARGET_DOCFILES="docs/readme._ix"
         add_sources "linux" "arm64"
+        ;;
+
+    *linux-riscv64)
+        TARGET_CC="${CROSS_PREFIX}g++"
+        TARGET_AS="${CROSS_PREFIX}gcc -c"
+        TARGET_CCFLAGS="$OPTS_GCC -Wall -DHAVE_POSIX_THREADS -DASM_NONE $RISCV_FLAGS"
+        TARGET_LIBS="-lpthread -lrt"
+        TARGET_IS_CROSSCOMPILE="yes"
+        TARGET_TARBALL="linux-riscv64"
+        TARGET_DOCFILES="docs/readme._ix"
+        add_sources "linux" "riscv64"
         ;;
 
     *linux-arm-elf_single)      # [teichp]
