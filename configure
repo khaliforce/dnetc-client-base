@@ -1285,6 +1285,10 @@ generate_gcc_opts() {
             -falign-functions=5 -falign-loops=4 -funroll-loops"
         ;;
 
+    *internal-arm64)
+        opts310="$OPTS_GCC310 -O2 -funroll-loops"
+        ;;
+
     *) # no default needed (internal)
         ;;
 
@@ -1701,9 +1705,10 @@ case "$1" in
         ;;
 
     *linux-arm64)               # [mikereed ertyu]
+        generate_gcc_opts "arm64" "linux"
         TARGET_CC="g++"
         TARGET_AS="gcc -c"
-        TARGET_CCFLAGS="-O2 -funroll-loops -Wall -DHAVE_POSIX_THREADS"
+        TARGET_CCFLAGS="$OPTS_GCC -DHAVE_POSIX_THREADS"
         TARGET_LIBS="-lpthread -lrt"
         TARGET_TARBALL="linux-arm64"
         TARGET_DOCFILES="docs/readme._ix"
