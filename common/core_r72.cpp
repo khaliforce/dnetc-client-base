@@ -627,7 +627,7 @@ int selcoreGetPreselectedCoreForProject_rc572(int device)
     }
   }
   // ===============================================================
-  #elif (CLIENT_CPU == CPU_ARM)
+  #elif (CLIENT_CPU == CPU_ARM) || (CLIENT_CPU == CPU_ARM64)
     {
       extern signed int default_r72_core;
 

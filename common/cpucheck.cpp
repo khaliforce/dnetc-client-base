@@ -1615,7 +1615,12 @@ static long __GetRawProcessorID(const char **cpuname )
     { 0x4100c090, 0xff00fff0, 0, 3, "ARM Cortex-A9" },
     { 0x4100c0c0, 0xff00fff0,-1,-1, "ARM Cortex-A12" },
     { 0x4100c0f0, 0xff00fff0, 2, 3, "ARM Cortex-A15" },
+#if (CLIENT_CPU == CPU_ARM64)
+    /* arm64 core index 1 = ANSI 2-pipe: fastest measured on Cortex-A53 (NanoPi Zero2) */
+    { 0x4100d030, 0xff00fff0, 1, -1, "ARM Cortex-A53" },
+#else
     { 0x4100d030, 0xff00fff0,-1,-1, "ARM Cortex-A53" },
+#endif
     { 0x4100d070, 0xff00fff0,-1,-1, "ARM Cortex-A57" },
     // 0x44(D) - Digital
     { 0x4401a100, 0xfffffff0, 0, 1, "Digital StrongARM 110" },
