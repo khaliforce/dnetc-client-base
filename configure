@@ -1703,7 +1703,7 @@ case "$1" in
     *linux-arm64)               # [mikereed ertyu]
         TARGET_CC="g++"
         TARGET_AS="gcc -c"
-        TARGET_CCFLAGS="$OPTS_GCC -Wall -DHAVE_POSIX_THREADS"
+        TARGET_CCFLAGS="-O2 -mtune=cortex-a53 -Wall -DHAVE_POSIX_THREADS"
         TARGET_LIBS="-lpthread -lrt"
         TARGET_TARBALL="linux-arm64"
         TARGET_DOCFILES="docs/readme._ix"
