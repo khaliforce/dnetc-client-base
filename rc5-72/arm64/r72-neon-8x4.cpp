@@ -22,8 +22,9 @@ static inline uint32x4_t VROTL(uint32x4_t x, uint32x4_t s)
   int32x4_t m = vreinterpretq_s32_u32(vandq_u32(s, vdupq_n_u32(31)));
   return vorrq_u32(vshlq_u32(x, m), vshlq_u32(x, vsubq_s32(m, vdupq_n_s32(32))));
 }
+/* shift-and-insert: 2 ops instead of shl+shr+orr */
 static inline uint32x4_t VROTL3(uint32x4_t x)
-{ return vorrq_u32(vshlq_n_u32(x, 3), vshrq_n_u32(x, 29)); }
+{ return vsriq_n_u32(vshlq_n_u32(x, 3), x, 29); }
 
 static inline void key_inc(u32 &hi, u32 &mid, u32 &lo)
 {
